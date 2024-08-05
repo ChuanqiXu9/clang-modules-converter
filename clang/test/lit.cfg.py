@@ -91,6 +91,7 @@ tools = [
     "clang-tblgen",
     "clang-scan-deps",
     "clang-installapi",
+    "clang-modules-converter",
     "opt",
     "llvm-ifs",
     "yaml2obj",

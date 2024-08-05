@@ -66,7 +66,6 @@ public:
   void InsertText(unsigned OrigOffset, StringRef Str,
                   bool InsertAfter = true);
 
-
   /// InsertTextBefore - Insert some text before the specified point, where the
   /// offset in the buffer is specified relative to the original
   /// SourceBuffer. The text is inserted before the specified location.  This is
