@@ -265,6 +265,14 @@ In this case, we can put the following text in these headers:
 
 Because we won't rewrite the headers that was already converted. The rationale is, if the tool detected such pattern, we assume it is edited or verified by users. Then we should respect users' decisions.
 
+## Rewrite Headers to Modules V.S. Rewrite Headers to Partitions
+
+It is more natural to rewrite headers that consisiting a module interface into parititions. The codes look prettier and we can get language-level feature to control the visibility. 
+
+But the downside is, all the interface partition units should be transitively imported to the primary module interface and all the implementation module units would import the primary module interface. So that all the implementation module units need to wait for the all the interfaces to be compiled to start their own compilations.
+
+If we don't like this, we can rewrite the headers to different modules and control the visiblities in the build systems to make sure the users can only use the module we intended to export.
+
 # The structure of the tool
 
 All the tests are in `clang/test/ClangModulesConverter`. The implementation codes are in `clang/tools/clang-modules-converter`. The main file is `clang/tools/clang-modules-converter/ModulesConverter.cpp`.
