@@ -245,10 +245,12 @@ If the tool failed to treat some std headers, we can add it outselves by adding 
 ```yaml
 third_party_modules:
   - name: std
-    headers: new_std_header
+    headers: "^new_std_header$"
 ```
 
-If the tool doesn't export needed names, we can update the generated std module directly. Or update the tool itselves.
+Note that we need to add `^` and `$` otherwise it may match `local/new_std_header`, which may not be wanted.
+
+And if the tool doesn't export needed names, we can update the generated std module directly. Or update the tool itselves.
 
 ## Is this tool portable on Windows
 
