@@ -30,6 +30,8 @@ std_module_path: WORK_DIR/modules/std.cppm
 //--- new_std_header
 #pragma once
 
+#include <stddef.h>
+
 //--- a.h
 // Comments in the top of the file.
 #ifndef A_H

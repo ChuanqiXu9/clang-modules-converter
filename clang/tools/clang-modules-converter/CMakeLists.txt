@@ -28,3 +28,4 @@ clang_target_link_libraries(clang-modules-converter
   ${CONVERTER_CLANG_LIB_DEPS}
   )
 
+add_dependencies(clang-modules-converter clang-resource-headers)

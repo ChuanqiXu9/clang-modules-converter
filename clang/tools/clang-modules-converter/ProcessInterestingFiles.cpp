@@ -468,6 +468,12 @@ createPreprocessInvocation(const std::vector<std::string> &CommandLine) {
   for (const std::string &S : CommandLine)
     Args.push_back(S.c_str());
 
+  Args.push_back("-I");
+  llvm::SmallString<256> ResourceDir(clang::driver::Driver::GetResourcesPath(
+      llvm::sys::fs::getMainExecutable(nullptr, nullptr)));
+  llvm::sys::path::append(ResourceDir, "include");
+  Args.push_back(ResourceDir.str().data());
+
   // FIXME: We shouldn't have to pass in the path info.
   clang::driver::Driver TheDriver(Args[0], llvm::sys::getDefaultTargetTriple(),
                                   *Diags, "clang LLVM compiler");
