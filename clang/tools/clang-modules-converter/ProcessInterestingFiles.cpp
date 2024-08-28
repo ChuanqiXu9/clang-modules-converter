@@ -468,12 +468,6 @@ createPreprocessInvocation(const std::vector<std::string> &CommandLine) {
   for (const std::string &S : CommandLine)
     Args.push_back(S.c_str());
 
-  Args.push_back("-I");
-  llvm::SmallString<256> ResourceDir(clang::driver::Driver::GetResourcesPath(
-      llvm::sys::fs::getMainExecutable(nullptr, nullptr)));
-  llvm::sys::path::append(ResourceDir, "include");
-  Args.push_back(ResourceDir.str().data());
-
   // FIXME: We shouldn't have to pass in the path info.
   clang::driver::Driver TheDriver(Args[0], llvm::sys::getDefaultTargetTriple(),
                                   *Diags, "clang LLVM compiler");
@@ -513,6 +507,14 @@ createPreprocessInvocation(const std::vector<std::string> &CommandLine) {
 ProcessedInfo InterestingFileManager::preprocessFile(
     StringRef Filename, tooling::CompileCommand Cmd,
     SmallVector<std::string> *AllIncludedFiles) {
+  // Add the resource dir manually. Otherwise we may look our resource dir
+  // from the invoked compiler, which may not have resource dir we want.
+  Cmd.CommandLine.push_back("-I");
+  llvm::SmallString<256> ResourceDir(clang::driver::Driver::GetResourcesPath(
+      llvm::sys::fs::getMainExecutable(nullptr, nullptr)));
+  llvm::sys::path::append(ResourceDir, "include");
+  Cmd.CommandLine.push_back((std::string)ResourceDir.str());
+
   std::unique_ptr<CompilerInvocation> CI =
       createPreprocessInvocation(Cmd.CommandLine);
   if (!CI) {
